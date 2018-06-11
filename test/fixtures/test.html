@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Ace-diff - Test page</title>
+  <script src="/demo4/jquery.js"></script>
+  <link rel="stylesheet" href="/dist/ace-diff.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.8/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/dist/ace-diff.min.js"></script>
+</head>
+
+<body>
+  <div class="custom"></div>
+
+  <script>
+    $(function() {
+    $.ajax({
+      url: "/demo4/data.json",
+      type: "GET",
+      dataType: "json",
+      success: function(oResult) {
+        if (oResult.cds) {
+          var oSourceCode = JSON.parse(oResult.cds);
+          var aKeys = Object.keys(oSourceCode);
+
+
+          if (aKeys.length) {
+
+            var left = oSourceCode[aKeys[0]].old;
+            var right = oSourceCode[aKeys[0]].new;
+
+            var aceDiffer = new AceDiff({
+              element: ".custom",
+              mode: "ace/mode/javascript",
+              left: {
+                id: "editor1",
+                // editable: false,
+                // copyLinkEnabled: false,
+                content: right
+              },
+              right: {
+                id: "editor2",
+                // editable: false,
+                // copyLinkEnabled: false,
+                content: left
+              },
+              classes: {
+                      gutterID: "gutter"
+                  }
+            });
+            
+          }
+        }
+        
+      },
+      error: function() {
+        console.log("error");
+      }
+    })
+  });
+
+  </script>
+</body>
+</html>
